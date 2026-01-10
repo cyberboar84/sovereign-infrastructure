@@ -1,0 +1,6 @@
+*.tfstate
+*.tfstate.backup
+*.pem
+*.key
+.terraform/
+gcp-creds.json
