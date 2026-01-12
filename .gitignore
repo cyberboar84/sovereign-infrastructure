@@ -4,3 +4,9 @@
 *.key
 .terraform/
 gcp-creds.json
+*.iso
+*.qcow2
+.terraform/
+terraform.tfstate*
+*.pem
+*.key
