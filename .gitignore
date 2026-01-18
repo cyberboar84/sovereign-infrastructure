@@ -1,5 +1,50 @@
-venv/
+# Ignore VM disk images
+vm-storage/
+*.qcow2
+*.img
+
+# Ignore local tool folders that shouldn't be in this repo
+tools/
+!llama.cpp
+
+# Ignore python cache and logs
+__pycache__/
+*.log
+
+# --- Security & Secrets ---
+.env
+*.pem
+*.key
+credentials.json
+
+# --- Terraform ---
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraformrc
+terraform.rc
+
+# --- AI Models & Large Binaries ---
 models/
-.cache/
 *.gguf
-*.lock
+*.bin
+*.pt
+*.safetensors
+
+# --- Python & Environments ---
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# --- Original Rules ---
+vm-storage/
+*.qcow2
+*.img
+tools/
+!llama.cpp
+*.log
