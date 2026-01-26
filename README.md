@@ -40,12 +40,6 @@ The system orchestrates a **6-GPU split-tensor cluster** (56GB VRAM total) to se
 ### **Configuration**
 The cluster uses a configured `compose.yaml` with environment variable injection for secrets.
 
-**Environment Variables (`.env`):**
-```bash
-LDAP_BIND_PASSWORD=******
-POSTGRES_PASSWORD=******
-MINIO_ROOT_PASSWORD=******
-
 # Balanced for 3080 (10GB) + 3060 (12GB) + 3060Ti (8GB) mix
 --tensor-split 14,13,11,11,11,18
 
