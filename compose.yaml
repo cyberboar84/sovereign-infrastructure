@@ -1,0 +1,45 @@
+services:
+  # --- THE ENGINE (Zone B) ---
+  llama-server:
+    # UPDATED REPO: Changed 'ggerganov' to 'ggml-org'
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda
+    container_name: factory-inference-01
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - ./models/gguf:/models
+    ports:
+      - "8000:8000"
+    command: >
+      -m /models/Meta-Llama-3.1-70B-Instruct.Q4_K_M.gguf
+      --host 0.0.0.0
+      --port 8000
+      --n-gpu-layers 99
+      --ctx-size 8192
+      --tensor-split 10,14,12,12,12,18
+      --parallel 1
+      --flash-attn on
+
+  # --- THE INTERFACE (Zone B) ---
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: factory-ui
+    restart: always
+    network_mode: "host" 
+    environment:
+      - OPENAI_API_BASE_URL=http://localhost:8000/v1
+      - OPENAI_API_KEY=sovereign-key
+      - PORT=8080
+   # INJECTED SECRET: Loads from .env file
+      - LDAP_BIND_PASSWORD=${LDAP_BIND_PASSWORD}
+    volumes:
+      - open-webui-data:/app/backend/data
+
+volumes:
+  open-webui-data:

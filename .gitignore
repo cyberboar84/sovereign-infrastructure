@@ -1,21 +1,37 @@
-# Ignore VM disk images
+# --- Heavy Virtualization Files ---
 vm-storage/
 *.qcow2
 *.img
+*.iso
 
-# Ignore local tool folders that shouldn't be in this repo
+# --- AI Models (CRITICAL) ---
+# Prevent accidental commit of 40GB+ model files
+models/
+models/*
+*.gguf
+*.bin
+*.pt
+*.safetensors
+
+# --- Tools & dependencies ---
+# Ignore all tools except the llama.cpp folder if you want to track it
 tools/
-!llama.cpp
+!tools/llama.cpp/
 
-# Ignore python cache and logs
+# --- Python ---
 __pycache__/
+*.py[cod]
 *.log
+venv/
+.venv/
 
-# --- Security & Secrets ---
+# --- Security & Secrets (Never commit these) ---
 .env
 *.pem
 *.key
 credentials.json
+*_secret.yaml
+docker-compose.override.yml
 
 # --- Terraform ---
 .terraform/
@@ -24,27 +40,3 @@ credentials.json
 *.tfvars
 .terraformrc
 terraform.rc
-
-# --- AI Models & Large Binaries ---
-models/
-*.gguf
-*.bin
-*.pt
-*.safetensors
-
-# --- Python & Environments ---
-.venv/
-venv/
-env/
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-
-# --- Original Rules ---
-vm-storage/
-*.qcow2
-*.img
-tools/
-!llama.cpp
-*.log
