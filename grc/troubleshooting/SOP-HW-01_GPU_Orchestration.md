@@ -23,3 +23,9 @@ Technical Implementation: NVIDIA Device Plugin (v0.16.2).
 Hardware Inventory: 6x Physical GPUs (56GB VRAM).
 
 Verification: Successful advertisement of nvidia.com/gpu: 6 via Node Capacity API.
+
+Resolution: > * CRI Patch: Successfully applied 99-nvidia.toml to containerd.
+
+Discovery Strategy: Explicitly set to nvml to ensure direct access to the 6-GPU PCI-e bus.
+
+Audit Status: PASS. Physical hardware now mapped to Kubernetes scheduler.
