@@ -26,3 +26,27 @@ Driver Stack: Native NVIDIA Datacenter Drivers (v570.211) via CDI (Container Dev
 Storage Architecture: Decoupled. System root is isolated from volatile container data.
 
 Hardware Status: 6/6 GPUs Online (2x 3080, 2x 3060 Ti, 1x 3060, 1x 3070).
+
+ID: AIS-2026-01-CLOSE Date: 2026-01-31 Subject: Infrastructure Restoration & Commissioning Status: OPERATIONAL / STABLE
+
+1. Executive Summary
+The Sovereign AI Research Node (ml-boar-84) has been successfully recovered from a critical recursive filesystem failure. The infrastructure has been re-architected to decouple storage from the OS, eliminating the root cause of the previous corruption.
+
+2. Technical State Verification
+Compute: 6x NVIDIA GPUs (RTX 3080/3070/3060Ti mix) fully addressed via CDI.
+
+Drivers: NVIDIA Datacenter Driver v570.211 (Headless).
+
+Orchestration: Kubernetes v1.31.14 (Kubelet Active, Device Plugin Active).
+
+Storage: 4TB Dedicated NVMe (/home/containerd-storage) linked to runtime, isolated from RootFS.
+
+3. Resolution Actions
+Recursion Remediation: Manually patched ldconfig binary and sanitized /etc/fstab.
+
+Runtime Hardening: Rebuilt containerd configuration to explicitly enforce CDI injection (nvidia.com/gpu=all).
+
+Scheduler Repair: Cleared node taints and verified Capacity Advertisement (6 GPUs).
+
+4. Sign-off
+System is green for AI workloads.
