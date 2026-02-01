@@ -42,3 +42,5 @@ The cluster uses a custom `RuntimeClass` to expose the NVIDIA drivers to K8s pod
 The vLLM engine is manually tuned to fit the 20GB VRAM envelope of Tier 1 while maximizing context.
 
 * **Tensor Parallelism
+
+* 📄 License MIT License.
