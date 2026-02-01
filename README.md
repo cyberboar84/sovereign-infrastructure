@@ -43,4 +43,4 @@ The vLLM engine is manually tuned to fit the 20GB VRAM envelope of Tier 1 while 
 
 * **Tensor Parallelism
 
-* 📄 License MIT License.
+📄 License MIT License.
