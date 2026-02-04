@@ -6,6 +6,7 @@ repos:
         args: ['--maxkb=50000'] # Prevents accidentally staging LLM weights
     -   id: detect-private-key
     -   id: check-yaml
+        args: [--allow-multiple-documents]
     -   id: check-json
     -   id: end-of-file-fixer
 
