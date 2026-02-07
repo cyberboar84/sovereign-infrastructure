@@ -66,7 +66,6 @@ We utilize **Cilium** to enforce identity-based security at the kernel level. Ev
 
 **The Sovereign Data Flow:**
 
-```mermaid
 graph LR
     subgraph "Sovereign Arena (Untrusted)"
         A[Llama Attacker] -- "Malicious Request" --> B[LiteLLM Gateway]
