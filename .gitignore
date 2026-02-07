@@ -1,9 +1,26 @@
-# Ignore massive model weights
-*.safetensors
-*.bin
-*.pt
-*.engine
+# Ignore everything by default
+/*
 
-# Ignore sensitive lab data
-.env
-secrets.yaml
+# Un-ignore the directories you actually care about
+!/deployments/
+!/grc/
+!/documentation/
+!/triton-adapter/
+!/README.md
+!/.gitignore
+
+# Explicitly block secrets and heavy junk everywhere
+**/.env
+**/.env.*
+**/*_secret.yaml
+**/*.pem
+**/*.key
+**/*.safetensors
+**/*.bin
+**/*.pt
+**/*.engine
+**/*.gguf
+**/*.qcow2
+**/*.img
+**/__pycache__/
+**/*.log
