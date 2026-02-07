@@ -79,8 +79,6 @@ graph LR
     C -- "Post-Inference Filter" --> B
     B -- "Sanitized Response" --> A
 
-
-
 Module 2: The Triton-OpenAI Adapter
 Since NVIDIA Triton uses KServe/v2 gRPC, this custom Python adapter acts as the Linguistic Bridge, standardizing payloads for OpenAI-compatible frontends while serving as a critical security control point.
 
@@ -109,6 +107,7 @@ Diff
 +        if secret_to_hide and secret_to_hide in text_output:
 +            logger.warning(f"🛑 SECURITY ALERT: Blocked exfiltration attempt")
 +            text_output = "[DATA EXPUNGED BY SOVEREIGN GUARDRAIL]"
+
 7. ⚙️ Engine Tuning: vLLM & PagedAttention
 We have transitioned from static TensorRT engines to the vLLM backend to resolve Connect call failed errors and improve memory efficiency via PagedAttention.
 
