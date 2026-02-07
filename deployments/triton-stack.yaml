@@ -86,7 +86,7 @@ spec:
       volumes:
       - name: model-repo
         hostPath:
-          path: /mnt/sovereign-storage/models  # <--- POINTS TO YOUR REAL DATA
+          path: /mnt/sovereign-storage/models_archive  # <--- POINTS TO YOUR REAL DATA
       - name: dshm
         emptyDir:
           medium: Memory

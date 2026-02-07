@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: ""  # Empty string is crucial for manual binding
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/sovereign-storage/postgres-data"
+  # This section forces this PV to bind ONLY to your specific Postgres claim
+  claimRef:
+    namespace: sovereign-ai
+    name: postgres-data

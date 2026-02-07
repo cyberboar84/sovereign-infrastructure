@@ -1,42 +1,9 @@
-# --- Heavy Virtualization Files ---
-vm-storage/
-*.qcow2
-*.img
-*.iso
-
-# --- AI Models (CRITICAL) ---
-# Prevent accidental commit of 40GB+ model files
-models/
-models/*
-*.gguf
+# Ignore massive model weights
+*.safetensors
 *.bin
 *.pt
-*.safetensors
+*.engine
 
-# --- Tools & dependencies ---
-# Ignore all tools except the llama.cpp folder if you want to track it
-tools/
-!tools/llama.cpp/
-
-# --- Python ---
-__pycache__/
-*.py[cod]
-*.log
-venv/
-.venv/
-
-# --- Security & Secrets (Never commit these) ---
+# Ignore sensitive lab data
 .env
-*.pem
-*.key
-credentials.json
-*_secret.yaml
-docker-compose.override.yml
-
-# --- Terraform ---
-.terraform/
-*.tfstate
-*.tfstate.*
-*.tfvars
-.terraformrc
-terraform.rc
+secrets.yaml

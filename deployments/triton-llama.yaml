@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-llama
+  namespace: sovereign-ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triton-llama
+  template:
+    metadata:
+      labels:
+        app: triton-llama
+    spec:
+      runtimeClassName: nvidia
+      containers:
+      - name: triton
+        image: nvcr.io/nvidia/tritonserver:24.12-vllm-python-py3
+        command: ["/opt/tritonserver/bin/tritonserver"]
+        ports:
+        - containerPort: 8000
+          name: http
+        - containerPort: 8001
+          name: grpc
+        - containerPort: 8002
+          name: metrics
+        args: ["--model-repository=/model_repository", "--model-control-mode=explicit", "--load-model=llama3"]
+        env:
+          - name: CUDA_DEVICE_ORDER
+            value: "PCI_BUS_ID"
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: "all"
+          - name: CUDA_VISIBLE_DEVICES
+            value: "2"
+        resources:
+          limits:
+            memory: "16Gi"
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - name: model-repo
+          mountPath: /model_repository
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: model-repo
+        hostPath: { path: /mnt/sovereign-storage/models_archive }
+      - name: dshm
+        emptyDir: { medium: Memory, sizeLimit: "24Gi" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: llama-internal
+  namespace: sovereign-ai
+spec:
+  selector:
+    app: triton-llama
+  ports:
+  - port: 8000
+    targetPort: 8000

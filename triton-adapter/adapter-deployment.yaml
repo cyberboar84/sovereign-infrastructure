@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-adapter
+  namespace: sovereign-ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triton-adapter
+  template:
+    metadata:
+      labels:
+        app: triton-adapter
+    spec:
+      containers:
+      - name: adapter
+        image: triton-adapter:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+      env:
+      - name: GOLDEN_BOAR
+        valueFrom:
+          secretKeyRef:
+            name: sovereign-secrets
+            key: GOLDEN_BOAR
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: triton-adapter
+  namespace: sovereign-ai
+spec:
+  selector:
+    app: triton-adapter
+  ports:
+  - port: 8000
+    targetPort: 8000

@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 15s  # 5s is very aggressive; 15s is the sweet spot for a lab
+  evaluation_interval: 15s
+
+scrape_configs:
+  # 1. Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # 2. 6-GPU Cluster Metrics (via DCGM Exporter on ml-boar-84)
+  - job_name: 'gpu-metrics'
+    static_configs:
+      - targets: ['factory-dcgm:9400']
+
+  # 3. Windows Domain Controller (via Windows Exporter on .11)
+  - job_name: 'windows-dc'
+    static_configs:
+      - targets: ['10.10.10.11:9182']
+
+  # 4. OpenTelemetry Collector (The Swiss Army Knife)
+  - job_name: 'otel-collector'
+    static_configs:
+      - targets: ['factory-otel:8889']
+
+  # 5. Infrastructure Metrics (Ubuntu Host)
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['localhost:9100']

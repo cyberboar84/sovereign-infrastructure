@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-mistral
+  namespace: sovereign-ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triton-mistral
+  template:
+    metadata:
+      labels:
+        app: triton-mistral
+    spec:
+      runtimeClassName: nvidia
+      containers:
+      - name: triton
+        image: nvcr.io/nvidia/tritonserver:24.12-vllm-python-py3
+        ports:
+        - containerPort: 8000
+          name: http
+        - containerPort: 8001
+          name: grpc
+        - containerPort: 8002
+          name: metrics
+        securityContext:
+          privileged: true
+        command: ["/opt/tritonserver/bin/tritonserver"]
+        args: ["--model-repository=/model_repository", "--model-control-mode=explicit", "--load-model=mistral-nemo"]
+        env:
+          - name: CUDA_DEVICE_ORDER
+            value: "PCI_BUS_ID"
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: "0,5" # MOUNT ONLY PHYSICAL 0 AND 5
+          - name: CUDA_VISIBLE_DEVICES
+            value: "0,5" # THEY BECOME DEVICE 0 AND 1
+        resources:
+          limits:
+            memory: "32Gi"
+            nvidia.com/gpu: 5
+        volumeMounts:
+        - name: model-repo
+          mountPath: /model_repository
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: model-repo
+        hostPath: { path: /mnt/sovereign-storage/models_archive }
+      - name: dshm
+        emptyDir: { medium: Memory, sizeLimit: "32Gi" }
