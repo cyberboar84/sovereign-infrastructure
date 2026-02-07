@@ -8,6 +8,9 @@
 !/triton-adapter/
 !/README.md
 !/.gitignore
+!.pre-commit-config.yaml
+!.secrets.baseline
+!.gitattributes
 
 # Explicitly block secrets and heavy junk everywhere
 **/.env
