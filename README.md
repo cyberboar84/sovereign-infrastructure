@@ -109,13 +109,15 @@ We implemented a **Post-Inference Regex Filter** within the `triton-adapter.py`.
 +            logger.warning(f"🛑 SECURITY ALERT: Blocked exfiltration attempt")
 +            text_output = "[DATA EXPUNGED BY SOVEREIGN GUARDRAIL]"          text_output = "[DATA EXPUNGED BY SOVEREIGN GUARDRAIL]"
 
-### 7. ⚙️ Engine Tuning: vLLM & PagedAttention
-We have transitioned from static TensorRT engines to the vLLM backend to resolve Connect call failed errors and improve memory efficiency via PagedAttention.
+## 6. ⚙️ Engine Tuning: vLLM & PagedAttention
 
-* **VRAM Management:** Manually tuned for the 20GB envelope of the RTX 3080 cluster.
+We have transitioned from static TensorRT engines to the **vLLM backend** to resolve `Connect call failed` errors and significantly improve memory efficiency via **PagedAttention**. This move allows for more dynamic allocation of the KV cache, which is critical for maintaining high performance on consumer-grade hardware.
 
-* **Parallelism:** Tensor Parallelism (TP=2) spanning the Tier 1 engine.
 
-* **Precision:** BF16 (SafeTensors).
+### Optimization Details:
+* **VRAM Management:** Manually tuned to fit the strict **20GB envelope** of the Tier 1 cluster (Dual RTX 3080s).
+* **Parallelism:** Utilizes **Tensor Parallelism (TP=2)**, spanning the primary inference engine to minimize latency and maximize throughput.
+* **Context Efficiency:** Leverages PagedAttention to reduce memory fragmentation, allowing for larger batch sizes and longer sequence lengths without OOM (Out Of Memory) errors.
+
 
 📄 License MIT License.
