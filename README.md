@@ -1,4 +1,4 @@
-# Sovereign AI Factory (v2.1)
+# Sovereign AI Factory (v3.1)
 
 **Secured Enterprise-Grade Inference Infrastructure on Kubernetes**
 
